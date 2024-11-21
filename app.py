@@ -17,7 +17,7 @@ def configurar_pagina():
         """
         <style>
         body {
-            background-image:"BACKGROUND.png";  /* Substitua pelo link da sua imagem de fundo */
+            background-image:("BACKGROUND.png");  /* Substitua pelo link da sua imagem de fundo */
             background-size: cover;
             background-repeat: no-repeat;
         }
@@ -29,7 +29,7 @@ def configurar_pagina():
             padding: 10px 20px;
         }
         .navbar img {
-            background-image:"BACKGROUND.png";
+            background-image:("BACKGROUND.png");
             height: 50px;  /* Ajuste o tamanho do logo conforme necessário */
         }
         .navbar a {
@@ -48,7 +48,7 @@ def configurar_pagina():
     st.markdown(
         """
         <div class="navbar">
-            <img src="BACKGROUND.png">  <!-- Substitua pelo link do seu logo -->
+            <img src=("BACKGROUND.png")>  <!-- Substitua pelo link do seu logo -->
         """, unsafe_allow_html=True)
 
 # Classe Player
