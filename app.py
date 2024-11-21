@@ -29,6 +29,7 @@ def configurar_pagina():
             padding: 10px 20px;
         }
         .navbar img {
+            background-image:"BACKGROUND.png";
             height: 50px;  /* Ajuste o tamanho do logo conforme necessário */
         }
         .navbar a {
