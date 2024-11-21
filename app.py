@@ -48,7 +48,7 @@ def configurar_pagina():
     st.markdown(
         """
         <div class="navbar">
-            <img src="https://github.com/nicolassavyi/cassaniquel/blob/ca3089b861b488faf43236eaac8155199a60a67f/BACKGROUND.png">  <!-- Substitua pelo link do seu logo -->
+            <img src="BACKGROUND.png">  <!-- Substitua pelo link do seu logo -->
         """, unsafe_allow_html=True)
 
 # Classe Player
