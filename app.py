@@ -17,7 +17,7 @@ def configurar_pagina():
         """
         <style>
         body {
-            background-image: url('BACKGROUND.png');  /* Substitua pelo link da sua imagem de fundo */
+            background-image:"BACKGROUND.png";  /* Substitua pelo link da sua imagem de fundo */
             background-size: cover;
             background-repeat: no-repeat;
         }
