@@ -17,9 +17,7 @@ def configurar_pagina():
         """
         <style>
         body {
-            background-image:("BACKGROUND.png");  /* Substitua pelo link da sua imagem de fundo */
-            background-size: cover;
-            background-repeat: no-repeat;
+            background: no-repeat url("BACKGROUND.png");
         }
         .navbar {
             display: flex;
