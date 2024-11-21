@@ -17,7 +17,7 @@ def configurar_pagina():
         """
         <style>
         body {
-            background-image: url('https://github.com/nicolassavyi/cassaniquel/blob/ca3089b861b488faf43236eaac8155199a60a67f/BACKGROUND.png');  /* Substitua pelo link da sua imagem de fundo */
+            background-image: url('BACKGROUND.png');  /* Substitua pelo link da sua imagem de fundo */
             background-size: cover;
             background-repeat: no-repeat;
         }
