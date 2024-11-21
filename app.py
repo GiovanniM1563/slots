@@ -7,7 +7,7 @@ from time import sleep
 def configurar_pagina():
     # URL das imagens no repositório GitHub
     BACKGROUND_URL = "https://raw.githubusercontent.com/<usuario>/<repositorio>/<branch>/images/BACKGROUND.png"
-    NAVBAR_ICON_URL = "https://raw.githubusercontent.com/<usuario>/<repositorio>/<branch>/images/navbar_icon.png"
+    NAVBAR_ICON_URL = "https://github.com/nicolassavyi/cassaniquel.py/blob/main/navbar%20icon.png"
     
     # Definir o ícone e o título da página
     st.set_page_config(
