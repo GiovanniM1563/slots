@@ -5,48 +5,55 @@ from time import sleep
 
 # Função para configurar a página, incluindo o ícone e o fundo
 def configurar_pagina():
+    # URL das imagens no repositório GitHub
+    BACKGROUND_URL = "https://raw.githubusercontent.com/<usuario>/<repositorio>/<branch>/images/BACKGROUND.png"
+    NAVBAR_ICON_URL = "https://raw.githubusercontent.com/<usuario>/<repositorio>/<branch>/images/navbar_icon.png"
+    
     # Definir o ícone e o título da página
     st.set_page_config(
         page_title="Death Lucky Cassino",  # Título da página
-        page_icon="navbar icon.png",  # Caminho para o ícone da página
+        page_icon=NAVBAR_ICON_URL,  # URL do ícone da página
         layout="wide"
     )
     
     # Adicionar a imagem de fundo e a navbar
     st.markdown(
-        """
+        f"""
         <style>
-        body {
-            background-image: no-repeat url("BACKGROUND.png");
-        }
-        .navbar {
+        body {{
+            background-image: url("{BACKGROUND_URL}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }}
+        .navbar {{
             display: flex;
             justify-content: space-between;
             align-items: center;
             background-color: #333;
             padding: 10px 20px;
-        }
-        .navbar img {
-            background-image:("BACKGROUND.png");
+        }}
+        .navbar img {{
             height: 50px;  /* Ajuste o tamanho do logo conforme necessário */
-        }
-        .navbar a {
+        }}
+        .navbar a {{
             color: white;
             text-decoration: none;
             font-size: 18px;
             margin-left: 20px;
-        }
-        .navbar a:hover {
+        }}
+        .navbar a:hover {{
             color: #ff0;
-        }
+        }}
         </style>
         """, unsafe_allow_html=True)
 
     # Navbar com logo do "Cassa Niquel"
     st.markdown(
-        """
+        f"""
         <div class="navbar">
-            <img src=("BACKGROUND.png")>  <!-- Substitua pelo link do seu logo -->
+            <img src="{NAVBAR_ICON_URL}" alt="Logo do Cassino">
+        </div>
         """, unsafe_allow_html=True)
 
 # Classe Player
