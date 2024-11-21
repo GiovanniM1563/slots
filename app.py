@@ -7,8 +7,8 @@ from time import sleep
 def configurar_pagina():
     # Definir o ícone e o título da página
     st.set_page_config(
-        page_title="🎰 Death Lucky Cassino 🎰",  # Título da página
-        page_icon="BACKGROUND.png",  # Caminho para o ícone da página
+        page_title="Death Lucky Cassino",  # Título da página
+        page_icon="navbar icon.png",  # Caminho para o ícone da página
         layout="wide"
     )
     
