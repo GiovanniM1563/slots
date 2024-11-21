@@ -6,7 +6,7 @@ from time import sleep
 # Função para configurar a página, incluindo o ícone e o fundo
 def configurar_pagina():
     # URL das imagens no repositório GitHub
-    BACKGROUND_URL = "BACKGROUND.png"
+    BACKGROUND_URL = "navbar icon.png"
     NAVBAR_ICON_URL = "navbar icon.png"
     
     # Definir o ícone e o título da página
