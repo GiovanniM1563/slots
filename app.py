@@ -8,7 +8,7 @@ def configurar_pagina():
     # Definir o ícone e o título da página
     st.set_page_config(
         page_title="🎰 Death Lucky Cassino 🎰",  # Título da página
-        page_icon="https://github.com/nicolassavyi/cassaniquel/blob/ca3089b861b488faf43236eaac8155199a60a67f/BACKGROUND.png",  # Caminho para o ícone da página
+        page_icon="BACKGROUND.png",  # Caminho para o ícone da página
         layout="wide"
     )
     
