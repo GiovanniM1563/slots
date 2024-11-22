@@ -3,15 +3,9 @@ import random
 import streamlit as st
 from time import sleep
 
-# Configuração da página do Streamlit
-def configurar_pagina():
-    BACKGROUND_URL = "BACKGROUND.png"  # Link do plano de fundo
-    HEADER_IMAGE_URL = "navbar icon.png"  # Link da imagem do cabeçalho
-    ICON_URL = "navbar icon.png"  # Link do ícone
-
     st.set_page_config(
         page_title="Death Lucky Cassino",  # Título da página
-        page_icon=ICON_URL,  # Ícone do site
+        page_icon="navbar icon.png",  # Ícone do site
         layout="centered"  # Alinhamento centralizado
     )
 
@@ -20,12 +14,13 @@ def configurar_pagina():
         f"""
         <style>
         body {{
-            background-image: url("{BACKGROUND_URL}");
+            background-image: ¨BACKGROUND.png¨;
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
         }}
         header {{
+                header-image: "navbar icon.png";
                 margin-left: auto;
                 margin-right: auto;
                 width: auto;
