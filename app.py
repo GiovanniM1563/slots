@@ -3,6 +3,11 @@ import random
 import streamlit as st
 from time import sleep
 
+def configurar_pagina():
+    BACKGROUND_URL = "BACKGROUND.png"  # Link do plano de fundo
+    HEADER_IMAGE_URL = "navbar icon.png"  # Link da imagem do cabeçalho
+    ICON_URL = "navbar icon.png"  # Link do ícone
+    
     st.set_page_config(
         page_title="Death Lucky Cassino",  # Título da página
         page_icon="navbar icon.png",  # Ícone do site
