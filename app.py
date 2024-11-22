@@ -18,34 +18,6 @@ def configurar_pagina():
         layout="centered"  # Alinhamento centralizado
     )
 
-    # Definindo o plano de fundo e header
-    st.markdown(
-        f"""
-        <style>
-        body {{
-            background-image: url("{BACKGROUND_URL}");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }}
-        header {{
-            header-image: url("{HEADER_IMAGE_URL}");
-            margin-left: auto;
-            margin-right: auto;
-            width: auto;
-        }}
-        .header-image {{
-            margin-left: auto;
-            margin-right: auto;
-            width: auto;
-        }}
-        </style>
-        """, unsafe_allow_html=True
-    )
-
-    # Exibindo o cabeçalho
-    st.markdown(f"<div class='header-image'><img src='{HEADER_IMAGE_URL}' alt='Header Image' style='width:100%;'/></div>", unsafe_allow_html=True)
-
 # Classe Player
 class Player:
     def __init__(self, balance=0):
