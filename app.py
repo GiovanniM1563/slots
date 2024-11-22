@@ -119,7 +119,7 @@ class CassaNiquel:
 
 # Função principal de interação com o usuário usando o Streamlit
 def iniciar_jogo():
-    st.title("🎰 Jogo de Cassino 🎰")
+    st.title("💀Death Lucky Cassino💀")
 
     # Inicializa o saldo do jogador
     if "player" not in st.session_state:
