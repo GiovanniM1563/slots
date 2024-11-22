@@ -8,7 +8,7 @@ def configurar_pagina():
     st.set_page_config(
         page_title="Death Lucky Cassino",  # Título da página
         page_icon="🎰",  # Ícone padrão da página
-        layout="wide"
+        layout="centered"  # Alinhamento centralizado
     )
 
 # Classe Player
@@ -43,11 +43,19 @@ class CassaNiquel:
         return result
 
     def _display(self, amout_bet, result, time=0.5):
+        st.markdown("### 🎰 Girando... 🎰")
         seconds = 4
+        placeholder = st.empty()
         for _ in range(int(seconds / time)):
-            st.text(self._emojize(random.choice(self.permutations)))
+            placeholder.markdown(
+                f"<div style='text-align:center;'>{self._emojize(random.choice(self.permutations))}</div>",
+                unsafe_allow_html=True
+            )
             sleep(time)
-        st.text(self._emojize(result))
+        placeholder.markdown(
+            f"<div style='text-align:center;'>{self._emojize(result)}</div>",
+            unsafe_allow_html=True
+        )
 
         if self._check_result_user(result):
             st.success(f'Você venceu e recebeu: R${amout_bet * 2}')
@@ -94,7 +102,7 @@ def iniciar_jogo():
                 saldo_inicial = float(saldo_inicial)
                 if saldo_inicial > 0:
                     st.session_state["player"] = Player(balance=saldo_inicial)
-                    st.write(f"Seu saldo inicial é: R${st.session_state['player'].balance:.2f}")
+                    st.success(f"Seu saldo inicial é: R${st.session_state['player'].balance:.2f}")
                 else:
                     st.warning("Por favor, insira um saldo inicial válido para começar a jogar.")
             except ValueError:
