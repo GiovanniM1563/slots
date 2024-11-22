@@ -3,20 +3,20 @@ import random
 import streamlit as st
 from time import sleep
 
+##
 # Função para configurar a página do Streamlit
 def configurar_pagina():
-    BACKGROUND_URL = "https://github.com/nicolassavyi/cassaniquel.py/blob/main/assets/BACKGROUND.png"  # Caminho relativo para o plano de fundo
-    HEADER_IMAGE_URL = "assets/navbar icon.png"  # Caminho relativo para a imagem do cabeçalho
-    ICON_URL = "assets/navbar icon.png"  # Caminho relativo para o ícone
-
-    # Configuração do Streamlit
+    BACKGROUND_URL = "assets/BACKGROUND.png"  # Link do novo plano de fundo
+    HEADER_IMAGE_URL = "assets/navbar icon.png"  # Link da imagem do cabeçalho
+    ICON_URL = "assets/navbar icon.png"  # Link do ícone
+    
     st.set_page_config(
         page_title="Death Lucky Cassino",  # Título da página
-        page_icon=ICON_URL,  # Ícone da página
+        page_icon="assets/navbar icon.png",  # Ícone do site
         layout="centered"  # Alinhamento centralizado
     )
 
-    # Definindo o plano de fundo e cabeçalho com CSS
+    # Definindo o plano de fundo e header
     st.markdown(
         f"""
         <style>
@@ -27,7 +27,7 @@ def configurar_pagina():
             background-repeat: no-repeat;
         }}
         header {{
-            background-image: url("{HEADER_IMAGE_URL}");
+            header-image: url("{HEADER_IMAGE_URL}");
             margin-left: auto;
             margin-right: auto;
             width: auto;
