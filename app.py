@@ -87,7 +87,7 @@ def iniciar_jogo():
 
     if st.session_state["player"] is None:
         saldo_inicial = st.text_input("Insira seu saldo inicial (use '.' para centavos):", value="", key="saldo_inicial_input")
-        saldo_ok = st.button("OK")
+        saldo_ok = st.button("OK", key="saldo_ok")
 
         if saldo_ok:
             try:
@@ -105,34 +105,38 @@ def iniciar_jogo():
         player = st.session_state["player"]
 
         if player.balance > 0:
-            amout_bet = st.text_input(f"Digite o valor da sua aposta (Saldo disponível: R${player.balance:.2f})", 
-                                        min_value=0.0, step=1.0, format="%.2f", key="aposta")}
-                amout_bet = st.button("OK")
+            aposta = st.text_input(f"Digite o valor da sua aposta (Saldo disponível: R${player.balance:.2f})", value="", key="aposta_input")
+            aposta_ok = st.button("OK", key="aposta_ok")
 
-            if amout_bet <= 0:
-                st.error("A aposta deve ser maior que 0.")
-            elif amout_bet > player.balance:
-                st.error("Você não tem saldo suficiente para essa aposta.")
-            else:
-                cassino = CassaNiquel()
-                cassino.play(amout_bet, player)
-                st.write(f"Seu saldo atual é: R${player.balance:.2f}")
+            if aposta_ok:
+                try:
+                    amout_bet = float(aposta)
+                    if amout_bet <= 0:
+                        st.error("A aposta deve ser maior que 0.")
+                    elif amout_bet > player.balance:
+                        st.error("Você não tem saldo suficiente para essa aposta.")
+                    else:
+                        cassino = CassaNiquel()
+                        cassino.play(amout_bet, player)
+                        st.write(f"Seu saldo atual é: R${player.balance:.2f}")
 
-                col1, col2 = st.columns(2)
-                with col1:
-                    continuar_sim = st.button("Jogar novamente", key="continuar_sim")
-                with col2:
-                    continuar_nao = st.button("Sair do jogo", key="continuar_nao")
+                        col1, col2 = st.columns(2)
+                        with col1:
+                            continuar_sim = st.button("Jogar novamente", key="continuar_sim")
+                        with col2:
+                            continuar_nao = st.button("Sair do jogo", key="continuar_nao")
 
-                if continuar_sim:
-                    st.session_state["jogo_ativo"] = True
-                elif continuar_nao:
-                    st.success("Obrigado por jogar! Até a próxima!")
-                    st.session_state["jogo_ativo"] = False
+                        if continuar_sim:
+                            st.session_state["jogo_ativo"] = True
+                        elif continuar_nao:
+                            st.success("Obrigado por jogar! Até a próxima!")
+                            st.session_state["jogo_ativo"] = False
 
-                if player.balance <= 0:
-                    st.warning("Você ficou sem saldo. Fim de jogo!")
-                    st.session_state["jogo_ativo"] = False
+                        if player.balance <= 0:
+                            st.warning("Você ficou sem saldo. Fim de jogo!")
+                            st.session_state["jogo_ativo"] = False
+                except ValueError:
+                    st.error("Por favor, insira um valor numérico válido.")
 
         else:
             st.warning("Você ficou sem saldo. Fim de jogo!")
