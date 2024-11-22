@@ -87,6 +87,12 @@ class CassaNiquel:
     # Figuras aleatórias para a matriz
     def _get_final_result(self, level):
         result = list(random.choice(self.permutations))
+
+         # Chance de ganhar com base no nível
+        if level in ['3', '4', '2'] and len(set(result)) == 3 and random.randint(0, 10) >= 2:
+            result[1] = result[0]
+
+        return result
         
     # Display com tempo tanto de rolagem das imagens como o tempo que elas vão acontecer
     def _display(self, amout_bet, result, time=0.5):
