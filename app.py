@@ -105,8 +105,9 @@ def iniciar_jogo():
         player = st.session_state["player"]
 
         if player.balance > 0:
-            amout_bet = st.number_input(f"Digite o valor da sua aposta (Saldo disponível: R${player.balance:.2f})", 
-                                        min_value=0.0, step=1.0, format="%.2f", key="aposta")
+            amout_bet = st.text_input(f"Digite o valor da sua aposta (Saldo disponível: R${player.balance:.2f})", 
+                                        min_value=0.0, step=1.0, format="%.2f", key="aposta")}
+                aposta_ok = st.button("OK")
 
             if amout_bet <= 0:
                 st.error("A aposta deve ser maior que 0.")
