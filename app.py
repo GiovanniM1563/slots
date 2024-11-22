@@ -6,10 +6,12 @@ from time import sleep
 ##
 # Função para configurar a página do Streamlit
 def configurar_pagina():
+
     BACKGROUND_URL = "assets/BACKGROUND.png"  # Link do novo plano de fundo
     HEADER_IMAGE_URL = "assets/navbar icon.png"  # Link da imagem do cabeçalho
     ICON_URL = "assets/navbar icon.png"  # Link do ícone
-    
+
+    # Configuração do Streamlit
     st.set_page_config(
         page_title="Death Lucky Cassino",  # Título da página
         page_icon="assets/navbar icon.png",  # Ícone do site
