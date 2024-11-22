@@ -84,6 +84,12 @@ class CassaNiquel:
 
 # Função principal de interação com o usuário usando o Streamlit
 def iniciar_jogo():
+    st.markdown(
+        """
+        <div style='border: 2px solid black; padding: 20px; border-radius: 10px;'>
+        """,
+        unsafe_allow_html=True
+    )
     st.title("🎰 Jogo de Cassino 🎰")
 
     # Inicializa o saldo do jogador
@@ -113,42 +119,46 @@ def iniciar_jogo():
         player = st.session_state["player"]
 
         if player.balance > 0:
-            aposta = st.text_input(f"Digite o valor da sua aposta (Saldo disponível: R${player.balance:.2f})", value="", key="aposta_input")
-            aposta_ok = st.button("OK", key="aposta_ok")
+            if "jogada_em_andamento" not in st.session_state or not st.session_state["jogada_em_andamento"]:
+                aposta = st.text_input(f"Digite o valor da sua aposta (Saldo disponível: R${player.balance:.2f})", value="", key="aposta_input")
+                aposta_ok = st.button("OK", key="aposta_ok")
 
-            if aposta_ok:
-                try:
-                    amout_bet = float(aposta)
-                    if amout_bet <= 0:
-                        st.error("A aposta deve ser maior que 0.")
-                    elif amout_bet > player.balance:
-                        st.error("Você não tem saldo suficiente para essa aposta.")
-                    else:
-                        cassino = CassaNiquel()
-                        cassino.play(amout_bet, player)
-                        st.write(f"Seu saldo atual é: R${player.balance:.2f}")
+                if aposta_ok:
+                    try:
+                        amout_bet = float(aposta)
+                        if amout_bet <= 0:
+                            st.error("A aposta deve ser maior que 0.")
+                        elif amout_bet > player.balance:
+                            st.error("Você não tem saldo suficiente para essa aposta.")
+                        else:
+                            st.session_state["jogada_em_andamento"] = True
+                            cassino = CassaNiquel()
+                            cassino.play(amout_bet, player)
+                            st.session_state["jogada_em_andamento"] = False
+                            st.write(f"Seu saldo atual é: R${player.balance:.2f}")
 
-                        col1, col2 = st.columns(2)
-                        with col1:
-                            continuar_sim = st.button("Jogar novamente", key="continuar_sim")
-                        with col2:
-                            continuar_nao = st.button("Sair do jogo", key="continuar_nao")
+                            col1, col2 = st.columns([1, 1], gap="large")
+                            with col1:
+                                continuar_sim = st.button("Jogar novamente", key="continuar_sim")
+                            with col2:
+                                continuar_nao = st.button("Sair do jogo", key="continuar_nao")
 
-                        if continuar_sim:
-                            st.session_state["jogo_ativo"] = True
-                        elif continuar_nao:
-                            st.success("Obrigado por jogar! Até a próxima!")
-                            st.session_state["jogo_ativo"] = False
+                            if continuar_sim:
+                                st.session_state["jogo_ativo"] = True
+                            elif continuar_nao:
+                                st.success("Obrigado por jogar! Até a próxima!")
+                                st.session_state["jogo_ativo"] = False
 
-                        if player.balance <= 0:
-                            st.warning("Você ficou sem saldo. Fim de jogo!")
-                            st.session_state["jogo_ativo"] = False
-                except ValueError:
-                    st.error("Por favor, insira um valor numérico válido.")
+                            if player.balance <= 0:
+                                st.warning("Você ficou sem saldo. Fim de jogo!")
+                                st.session_state["jogo_ativo"] = False
+                    except ValueError:
+                        st.error("Por favor, insira um valor numérico válido.")
 
         else:
             st.warning("Você ficou sem saldo. Fim de jogo!")
             st.session_state["jogo_ativo"] = False
+    st.markdown("</div>", unsafe_allow_html=True)
 
 if __name__ == "__main__":
     configurar_pagina()
