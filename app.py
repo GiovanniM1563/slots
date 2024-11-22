@@ -26,7 +26,9 @@ def configurar_pagina():
             background-repeat: no-repeat;
         }}
         header {{
-            text-align: center;
+                margin-left: auto;
+                margin-right: auto;
+                width: auto;
         }}
         .header-image {{
                 margin-left: auto;
