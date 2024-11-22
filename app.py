@@ -3,58 +3,13 @@ import random
 import streamlit as st
 from time import sleep
 
-# Função para configurar a página, incluindo o ícone e o fundo
+# Configuração da página do Streamlit
 def configurar_pagina():
-    # URL das imagens no repositório GitHub
-    BACKGROUND_URL = "BACKGROUND.png"
-    NAVBAR_ICON_URL = "navbar icon.png"
-
-    # Definir o ícone e o título da página
     st.set_page_config(
         page_title="Death Lucky Cassino",  # Título da página
-        page_icon=NAVBAR_ICON_URL,  # URL do ícone da página
+        page_icon="🎰",  # Ícone padrão da página
         layout="wide"
     )
-
-    # Adicionar a imagem de fundo e a navbar
-    st.markdown(
-        f"""
-        <style>
-        body {{
-            background-image: url("{BACKGROUND_URL}");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }}
-        .navbar {{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #333;
-            padding: 10px 20px;
-        }}
-        .navbar img {{
-            height: 50px;  /* Ajuste o tamanho do logo conforme necessário */
-        }}
-        .navbar a {{
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-            margin-left: 20px;
-        }}
-        .navbar a:hover {{
-            color: #ff0;
-        }}
-        </style>
-        """, unsafe_allow_html=True)
-
-    # Navbar com logo do "Cassa Niquel"
-    st.markdown(
-        f"""
-        <div class="navbar">
-            <img src="{NAVBAR_ICON_URL}" alt="Logo do Cassino">
-        </div>
-        """, unsafe_allow_html=True)
 
 # Classe Player
 class Player:
@@ -77,18 +32,14 @@ class CassaNiquel:
 
     def _gen_permutations(self):
         permutations = list(itertools.product(self.SIMBOLOS.keys(), repeat=3))
-
-        # Chance do usuário ganhar
         for i in self.SIMBOLOS.keys():
             permutations.append((i, i, i))
         return permutations
 
     def _get_final_result(self, level):
         result = list(random.choice(self.permutations))
-
         if level in ['3', '4', '2'] and len(set(result)) == 3 and random.randint(0, 10) >= 2:
             result[1] = result[0]
-
         return result
 
     def _display(self, amout_bet, result, time=0.5):
@@ -111,15 +62,14 @@ class CassaNiquel:
 
     def _update_balance(self, amout_bet, result, player: Player):
         if self._check_result_user(result):
-            player.balance += amout_bet * 2  # Jogador ganha o dobro da aposta
-            self.balance -= amout_bet * 2    # Máquina paga a aposta
+            player.balance += amout_bet * 2
+            self.balance -= amout_bet * 2
         else:
-            player.balance -= amout_bet      # Jogador perde a aposta
-            self.balance += amout_bet * 2   # Máquina ganha a aposta
+            player.balance -= amout_bet
+            self.balance += amout_bet * 2
 
     def play(self, amout_bet, player: Player):
         level = random.choice(self.levels)
-        st.text(f"Nível da jogada: {level}")
         result = self._get_final_result(level)
         self._display(amout_bet, result)
         self._update_balance(amout_bet, result, player)
@@ -167,9 +117,15 @@ def iniciar_jogo():
                 cassino.play(amout_bet, player)
                 st.write(f"Seu saldo atual é: R${player.balance:.2f}")
 
-                continuar = st.button("Deseja jogar novamente?", options=["Sim", "Não"], index=0)
+                col1, col2 = st.columns(2)
+                with col1:
+                    continuar_sim = st.button("Jogar novamente", key="continuar_sim")
+                with col2:
+                    continuar_nao = st.button("Sair do jogo", key="continuar_nao")
 
-                if continuar == "Não":
+                if continuar_sim:
+                    st.session_state["jogo_ativo"] = True
+                elif continuar_nao:
                     st.success("Obrigado por jogar! Até a próxima!")
                     st.session_state["jogo_ativo"] = False
 
