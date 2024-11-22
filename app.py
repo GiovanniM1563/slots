@@ -128,7 +128,6 @@ class CassaNiquel:
     # Função play
     def play(self, amout_bet, player: Player):
         level = random.choice(self.levels)  # Seleciona um nível aleatório para cada jogada
-        st.text(f"Nível da jogada: {level}")
         result = self._get_final_result(level)
         self._display(amout_bet, result)
         self._update_balance(amout_bet, result, player)
