@@ -5,7 +5,7 @@ from time import sleep
 
 # Função para configurar a página do Streamlit
 def configurar_pagina():
-    BACKGROUND_URL = "assets/BACKGROUND.png"  # Caminho relativo para o plano de fundo
+    BACKGROUND_URL = "https://github.com/nicolassavyi/cassaniquel.py/blob/main/assets/BACKGROUND.png"  # Caminho relativo para o plano de fundo
     HEADER_IMAGE_URL = "assets/navbar icon.png"  # Caminho relativo para a imagem do cabeçalho
     ICON_URL = "assets/navbar icon.png"  # Caminho relativo para o ícone
 
