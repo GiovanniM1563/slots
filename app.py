@@ -43,17 +43,17 @@ class CassaNiquel:
         return result
 
     def _display(self, amout_bet, result, time=0.5):
-        st.markdown("### 🎰 Girando... 🎰")
+        st.markdown("<h3 style='text-align:center;'>🎰 Girando... 🎰</h3>", unsafe_allow_html=True)
         seconds = 4
         placeholder = st.empty()
         for _ in range(int(seconds / time)):
             placeholder.markdown(
-                f"<div style='text-align:center;'>{self._emojize(random.choice(self.permutations))}</div>",
+                f"<div style='text-align:center; font-size:60px;'>{self._emojize(random.choice(self.permutations))}</div>",
                 unsafe_allow_html=True
             )
             sleep(time)
         placeholder.markdown(
-            f"<div style='text-align:center;'>{self._emojize(result)}</div>",
+            f"<div style='text-align:center; font-size:80px;'>{self._emojize(result)}</div>",
             unsafe_allow_html=True
         )
 
