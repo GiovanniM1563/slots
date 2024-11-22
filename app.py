@@ -5,11 +5,38 @@ from time import sleep
 
 # Configuração da página do Streamlit
 def configurar_pagina():
+    BACKGROUND_URL = "BACKGROUND.png"  # Link do plano de fundo
+    HEADER_IMAGE_URL = "navbar icon.png"  # Link da imagem do cabeçalho
+    ICON_URL = "navbar icon.png"  # Link do ícone
+
     st.set_page_config(
         page_title="Death Lucky Cassino",  # Título da página
-        page_icon="navbar icon.png",  # Ícone padrão da página
+        page_icon=ICON_URL,  # Ícone do site
         layout="centered"  # Alinhamento centralizado
     )
+
+    # Definindo o plano de fundo e header
+    st.markdown(
+        f"""
+        <style>
+        body {{
+            background-image: url("{BACKGROUND_URL}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }}
+        header {{
+            text-align: center;
+        }}
+        .header-image {{
+            width: 100%;
+        }}
+        </style>
+        """, unsafe_allow_html=True
+    )
+
+    # Exibindo o cabeçalho
+    st.markdown(f"<div class='header-image'><img src='{HEADER_IMAGE_URL}' alt='Header Image' style='width:100%;'/></div>", unsafe_allow_html=True)
 
 # Classe Player
 class Player:
