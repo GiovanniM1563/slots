@@ -7,7 +7,7 @@ from time import sleep
 def configurar_pagina():
     st.set_page_config(
         page_title="Death Lucky Cassino",  # Título da página
-        page_icon="navbar icon.png,  # Ícone padrão da página
+        page_icon="navbar icon.png",  # Ícone padrão da página
         layout="centered"  # Alinhamento centralizado
     )
 
