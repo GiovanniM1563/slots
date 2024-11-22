@@ -29,7 +29,9 @@ def configurar_pagina():
             text-align: center;
         }}
         .header-image {{
-            width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+                width: auto;
         }}
         </style>
         """, unsafe_allow_html=True
