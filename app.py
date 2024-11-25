@@ -21,7 +21,7 @@ def configurar_pagina():
         f"""
         <style>
         body {{
-            background-image: url('{BACKGROUND_URL}');
+            background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fquatrorodas.abril.com.br%2Fnoticias%2Ffiat-mobi-e-o-novo-carro-mais-barato-do-brasil-por-r-64-990&psig=AOvVaw27N0hYR2E01UENcNw2EEk8&ust=1732659628866000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCMDCuaTC-IkDFQAAAAAdAAAAABAE');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
