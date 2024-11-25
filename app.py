@@ -15,6 +15,7 @@ def configurar_pagina():
     st.set_page_config(
         page_title="Death Lucky Cassino",  # Título da página
         page_icon="assets/navbar icon.png",  # Ícone do site
+        background="assets/BACKGROUND.png" 
         layout="centered"  # Alinhamento centralizado
     )
 
