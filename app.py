@@ -2,6 +2,7 @@ import itertools
 import random
 import streamlit as st
 from time import sleep
+from PIL import Image
 
 # Função para configurar a página do Streamlit
 def configurar_pagina():
