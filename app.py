@@ -14,7 +14,7 @@ def configurar_pagina():
         layout="centered"  
     )
   
-    st.markdown(f"<h1>Death Lucky Cassino</h1><IMG_URL = 'assets/navbar icon.png' style='width:100%;'/", unsafe_allow_html=True)
+    st.markdown(f"<h1>Death Lucky Cassino</h1><IMG_URL = 'assets/navbar icon.png' style='width:100%;'/" text_align= center , unsafe_allow_html=True)
 
 # Classe Player
 class Player:
