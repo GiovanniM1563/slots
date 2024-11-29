@@ -14,7 +14,7 @@ def configurar_pagina():
         layout="centered"  
     )
   
-    st.markdown(f"<h1>☠Death Lucky Cassino☠</h1>, unsafe_allow_html=True)
+    st.markdown(f"<h1>☠Death Lucky Cassino☠</h1>", unsafe_allow_html=True)
 
 # Classe Player
 class Player:
