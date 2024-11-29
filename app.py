@@ -14,7 +14,7 @@ def configurar_pagina():
         layout="centered"  
     )
   
-    st.markdown(f"<h1>Death Lucky Cassino</h1><IMG_URL = 'assets/navbar icon.png' style='width:100%; layout=centered;'/" , unsafe_allow_html=True)
+    st.markdown(f"<h1>☠Death Lucky Cassino☠</h1>, unsafe_allow_html=True)
 
 # Classe Player
 class Player:
@@ -89,8 +89,6 @@ class CassaNiquel:
 
 # Função principal de interação com o usuário usando o Streamlit
 def iniciar_jogo():
-    st.title("🎰 Jogo de Cassino 🎰")
-
     # Inicializa o saldo do jogador
     if "player" not in st.session_state:
         st.session_state["player"] = None
