@@ -136,5 +136,5 @@ def iniciar_jogo():
             st.session_state["jogo_ativo"] = False
 
 if __name__ == "__main__":
-    configurar_pagina()
+    pagina()
     iniciar_jogo()
