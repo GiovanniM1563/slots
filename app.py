@@ -3,10 +3,9 @@ import random
 import streamlit as st
 from time import sleep
 
-# Função para configurar a página do Streamlit
-def configurar_pagina():
+def pagina():
     st.set_page_config(
-        page_title="Death Lucky Cassino",  # Título da página
+        page_title="Death Lucky Cassino",
         page_icon="💀",  # Ícone do site
         layout="centered"  # Alinhamento padrão
     )
