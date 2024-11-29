@@ -1,9 +1,5 @@
 ## Death Lucky Cassino 
 
-![Logo](https://github.com/nicolassavyi/padrao-readme/blob/main/img/logo.png)
-
-## Descrição
-
 O **Death Lucky Cassino** é um jogo de cassino baseado em um caça-níquel, desenvolvido em Python utilizando o Streamlit. O objetivo do jogo é apostar uma parte do saldo do jogador em um caça-níquel que utiliza emojis como símbolos, gerando uma experiência divertida e interativa. 
 
 A cada aposta, o jogador tem a chance de ganhar um valor em dobro caso consiga alinhar três símbolos iguais. Caso contrário, o valor apostado é perdido.
