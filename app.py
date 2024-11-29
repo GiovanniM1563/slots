@@ -2,30 +2,13 @@ import itertools
 import random
 import streamlit as st
 from time import sleep
-from PIL import Image
 
 # Função para configurar a página do Streamlit
 def configurar_pagina():
-    BACKGROUND_URL = "assets/BACKGROUND.png"  # Link do novo plano de fundo
-    HEADER_IMAGE_URL = "assets/navbar icon.png"  # Link da imagem do cabeçalho
-    ICON_URL = "assets/navbar icon.png"  # Link do ícone
-
-    # Configuração do Streamlit
     st.set_page_config(
         page_title="Death Lucky Cassino",  # Título da página
-        page_icon=ICON_URL,  # Ícone do site
-        layout="centered"  # Alinhamento centralizado
-    )
-    
-    # Definir fundo usando CSS
-    st.markdown(
-        f"""
-        <style>
-        body {{
-          background-color: #00000;
-        }}
-        </style>
-        """, unsafe_allow_html=True
+        page_icon="💀",  # Ícone do site
+        layout="centered"  # Alinhamento padrão
     )
 
 # Classe Player
@@ -59,20 +42,10 @@ class CassaNiquel:
             result[1] = result[0]
         return result
 
-    def _display(self, amout_bet, result, time=0.5):
-        st.markdown("<h3 style='text-align:center;'>🎰 Girando... 🎰</h3>", unsafe_allow_html=True)
-        seconds = 4
-        placeholder = st.empty()
-        for _ in range(int(seconds / time)):
-            placeholder.markdown(
-                f"<div style='text-align:center; font-size:60px;'>{self._emojize(random.choice(self.permutations))}</div>",
-                unsafe_allow_html=True
-            )
-            sleep(time)
-        placeholder.markdown(
-            f"<div style='text-align:center; font-size:80px;'>{self._emojize(result)}</div>",
-            unsafe_allow_html=True
-        )
+    def _display(self, amout_bet, result):
+        st.write("🎰 Girando... 🎰")
+        sleep(1)
+        st.write(self._emojize(result))
 
         if self._check_result_user(result):
             st.success(f'Você venceu e recebeu: R${amout_bet * 2}')
@@ -111,8 +84,8 @@ def iniciar_jogo():
         st.session_state["jogo_ativo"] = True
 
     if st.session_state["player"] is None:
-        saldo_inicial = st.text_input("Insira seu saldo inicial (use '.' para centavos):", value="", key="saldo_inicial_input")
-        saldo_ok = st.button("OK", key="saldo_ok")
+        saldo_inicial = st.text_input("Insira seu saldo inicial (use '.' para centavos):", value="")
+        saldo_ok = st.button("OK")
 
         if saldo_ok:
             try:
@@ -125,13 +98,12 @@ def iniciar_jogo():
             except ValueError:
                 st.error("Por favor, insira um número válido.")
 
-    # Se o jogo estiver ativo, o jogador pode apostar
     if st.session_state["jogo_ativo"] and st.session_state["player"] is not None:
         player = st.session_state["player"]
 
         if player.balance > 0:
-            aposta = st.text_input(f"Digite o valor da sua aposta (Saldo disponível: R${player.balance:.2f})", value="", key="aposta_input")
-            aposta_ok = st.button("OK", key="aposta_ok")
+            aposta = st.text_input(f"Digite o valor da sua aposta (Saldo disponível: R${player.balance:.2f})", value="")
+            aposta_ok = st.button("OK")
 
             if aposta_ok:
                 try:
@@ -145,11 +117,8 @@ def iniciar_jogo():
                         cassino.play(amout_bet, player)
                         st.write(f"Seu saldo atual é: R${player.balance:.2f}")
 
-                        col1, col2 = st.columns(2)
-                        with col1:
-                            continuar_sim = st.button("Jogar novamente", key="continuar_sim")
-                        with col2:
-                            continuar_nao = st.button("Sair do jogo", key="continuar_nao")
+                        continuar_sim = st.button("Jogar novamente")
+                        continuar_nao = st.button("Sair do jogo")
 
                         if continuar_sim:
                             st.session_state["jogo_ativo"] = True
