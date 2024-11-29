@@ -41,7 +41,7 @@ class CassaNiquel:
 
     def _get_final_result(self, level):
         result = list(random.choice(self.permutations))
-        if level in ['3', '4', '2'] and len(set(result)) == 3 and random.randint(0, 10) >= 2:
+        if level in ['3', '4', '2'] and len(set(result)) == 3 and random.randint(0, 10) >= 1:
             result[1] = result[0]
         return result
 
