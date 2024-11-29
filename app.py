@@ -3,8 +3,6 @@ import random
 import streamlit as st
 from time import sleep
 
-##
-# Função para configurar a página do Streamlit
 def configurar_pagina():
     ICON_URL = "assets/navbar icon.png"
 
@@ -87,7 +85,7 @@ class CassaNiquel:
         self._display(amout_bet, result)
         self._update_balance(amout_bet, result, player)
 
-# Função principal de interação com o usuário usando o Streamlit
+# Função de interação com o usuário
 def iniciar_jogo():
     # Inicializa o saldo do jogador
     if "player" not in st.session_state:
@@ -111,7 +109,6 @@ def iniciar_jogo():
             except ValueError:
                 st.error("Por favor, insira um número válido.")
 
-    # Se o jogo estiver ativo, o jogador pode apostar
     if st.session_state["jogo_ativo"] and st.session_state["player"] is not None:
         player = st.session_state["player"]
 
