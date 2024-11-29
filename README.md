@@ -1,4 +1,4 @@
-# 🎰 Death Lucky Cassino 🎰
+## Death Lucky Cassino 
 
 ![Logo](https://github.com/nicolassavyi/padrao-readme/blob/main/img/logo.png)
 
