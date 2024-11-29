@@ -6,45 +6,15 @@ from time import sleep
 ##
 # Função para configurar a página do Streamlit
 def configurar_pagina():
+    ICON_URL = "assets/navbar icon.png"
 
-    BACKGROUND_URL = "assets/BACKGROUND.png"  # Link do novo plano de fundo
-    HEADER_IMAGE_URL = "assets/navbar icon.png"  # Link da imagem do cabeçalho
-    ICON_URL = "assets/navbar icon.png"  # Link do ícone
-
-    # Configuração do Streamlit
     st.set_page_config(
-        page_title="Death Lucky Cassino",  # Título da página
-        page_icon="assets/navbar icon.png",  # Ícone do site
-        layout="centered"  # Alinhamento centralizado
+        page_title="Death Lucky Cassino",  
+        page_icon="assets/navbar icon.png",  
+        layout="centered"  
     )
-
-    # Definindo o plano de fundo e header
-    st.markdown(
-        f"""
-        <style>
-        body {{
-            background-image: url("{BACKGROUND_URL}");
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }}
-        header {{
-            header-image: url("{HEADER_IMAGE_URL}");
-            margin-left: auto;
-            margin-right: auto;
-            width: auto;
-        }}
-        .header-image {{
-            margin-left: auto;
-            margin-right: auto;
-            width: auto;
-        }}
-        </style>
-        """, unsafe_allow_html=True
-    )
-
-    # Exibindo o cabeçalho
-    st.markdown(f"<div class='header-image'><img src='{HEADER_IMAGE_URL}' alt='Header Image' style='width:100%;'/></div>", unsafe_allow_html=True)
+  
+    st.markdown(f"<div class='header-image'><img src='assets/navbar icon.png' alt='Header Image' style='width:100%;'/></div>", unsafe_allow_html=True)
 
 # Classe Player
 class Player:
