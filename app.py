@@ -3,7 +3,7 @@ import random
 import streamlit as st
 from time import sleep
 
-def pagina():
+def configurar_pagina():
     st.set_page_config(
         page_title="Death Lucky Cassino",
         page_icon="💀",  # Ícone do site
@@ -136,5 +136,5 @@ def iniciar_jogo():
             st.session_state["jogo_ativo"] = False
 
 if __name__ == "__main__":
-    pagina()
+    configurar_pagina()
     iniciar_jogo()
