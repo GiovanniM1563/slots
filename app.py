@@ -153,5 +153,3 @@ def iniciar_jogo():
 if __name__ == "__main__":
     configurar_pagina()
     iniciar_jogo()
-
-## NOS PAGUE UM CAFÉZINHO [CLIQUE AQUI]
