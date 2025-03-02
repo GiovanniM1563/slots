@@ -7,12 +7,12 @@ def configure_page():
     ICON_URL = "assets/navbar icon.png"
 
     st.set_page_config(
-        page_title="Death Lucky Casino",  
+        page_title="El Dorado Slots",  
         page_icon="assets/navbar icon.png",  
         layout="centered"  
     )
   
-    st.markdown(f"<h1>☠Death Lucky Casino☠</h1>", unsafe_allow_html=True)
+    st.markdown(f"<h1>El Dorado Slots</h1>", unsafe_allow_html=True)
 
 # Player Class
 class Player:
