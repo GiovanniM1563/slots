@@ -23,11 +23,12 @@ class Player:
 class SlotMachine:
     def __init__(self):
         self.SYMBOLS = {
-            'smirking face': '1F60F',
-            'collision': '1F4A5',
-            'smiling face with sunglasses': '1F60E',
-            'smiling face with horns': '1F608',
-            'alien': '1F47D'
+            'Lemon': '🍋',
+            'Cherry': '🍒',
+            'Seven': '7️⃣',
+            'Orange': '🍊',
+            'Bell': '🔔',
+            'Bar': 'BAR'
         }
         self.levels = ['1', '2', '3', '4']
         self.balance = 0
@@ -35,14 +36,14 @@ class SlotMachine:
 
     def _gen_permutations(self):
         permutations = list(itertools.product(self.SYMBOLS.keys(), repeat=3))
-        for i in self.SYMBOLS.keys():
-            permutations.append((i, i, i))
+        for symbol in self.SYMBOLS.keys():
+            permutations.append((symbol, symbol, symbol))  # Ensuring jackpots are possible
         return permutations
 
     def _get_final_result(self, level):
         result = list(random.choice(self.permutations))
         if level in ['3', '4', '2'] and len(set(result)) == 3 and random.randint(0, 10) >= 1:
-            result[1] = result[0]
+            result[1] = result[0]  # Adjusting for a higher chance of two matching symbols
         return result
 
     def _display(self, amount_bet, result, time=0.5):
@@ -65,8 +66,8 @@ class SlotMachine:
         else:
             st.warning('That was close! Try again next time.')
 
-    def _emojize(self, emojis):
-        return ''.join(chr(int(self.SYMBOLS[code], 16)) for code in emojis)
+    def _emojize(self, symbols):
+        return ' | '.join(self.SYMBOLS[symbol] for symbol in symbols)
 
     def _check_result_user(self, result):
         return result[0] == result[1] == result[2]
@@ -153,3 +154,4 @@ def start_game():
 if __name__ == "__main__":
     configure_page()
     start_game()
+
