@@ -3,26 +3,26 @@ import random
 import streamlit as st
 from time import sleep
 
-def configurar_pagina():
+def configure_page():
     ICON_URL = "assets/navbar icon.png"
 
     st.set_page_config(
-        page_title="Death Lucky Cassino",  
+        page_title="Death Lucky Casino",  
         page_icon="assets/navbar icon.png",  
         layout="centered"  
     )
   
-    st.markdown(f"<h1>☠Death Lucky Cassino☠</h1>", unsafe_allow_html=True)
+    st.markdown(f"<h1>☠Death Lucky Casino☠</h1>", unsafe_allow_html=True)
 
-# Classe Player
+# Player Class
 class Player:
     def __init__(self, balance=0):
         self.balance = balance
 
-# Classe CassaNiquel
-class CassaNiquel:
+# Slot Machine Class
+class SlotMachine:
     def __init__(self):
-        self.SIMBOLOS = {
+        self.SYMBOLS = {
             'smirking face': '1F60F',
             'collision': '1F4A5',
             'smiling face with sunglasses': '1F60E',
@@ -34,8 +34,8 @@ class CassaNiquel:
         self.permutations = self._gen_permutations()
 
     def _gen_permutations(self):
-        permutations = list(itertools.product(self.SIMBOLOS.keys(), repeat=3))
-        for i in self.SIMBOLOS.keys():
+        permutations = list(itertools.product(self.SYMBOLS.keys(), repeat=3))
+        for i in self.SYMBOLS.keys():
             permutations.append((i, i, i))
         return permutations
 
@@ -45,8 +45,8 @@ class CassaNiquel:
             result[1] = result[0]
         return result
 
-    def _display(self, amout_bet, result, time=0.5):
-        st.markdown("<h3 style='text-align:center;'>🎰 Girando... 🎰</h3>", unsafe_allow_html=True)
+    def _display(self, amount_bet, result, time=0.5):
+        st.markdown("<h3 style='text-align:center;'>🎰 Spinning... 🎰</h3>", unsafe_allow_html=True)
         seconds = 4
         placeholder = st.empty()
         for _ in range(int(seconds / time)):
@@ -61,95 +61,95 @@ class CassaNiquel:
         )
 
         if self._check_result_user(result):
-            st.success(f'Você venceu e recebeu: R${amout_bet * 2}')
+            st.success(f'You won and received: R${amount_bet * 2}')
         else:
-            st.warning('Essa foi por pouco! Na próxima você ganha, tente novamente.')
+            st.warning('That was close! Try again next time.')
 
     def _emojize(self, emojis):
-        return ''.join(chr(int(self.SIMBOLOS[code], 16)) for code in emojis)
+        return ''.join(chr(int(self.SYMBOLS[code], 16)) for code in emojis)
 
     def _check_result_user(self, result):
         return result[0] == result[1] == result[2]
 
-    def _update_balance(self, amout_bet, result, player: Player):
+    def _update_balance(self, amount_bet, result, player: Player):
         if self._check_result_user(result):
-            player.balance += amout_bet * 2
-            self.balance -= amout_bet * 2
+            player.balance += amount_bet * 2
+            self.balance -= amount_bet * 2
         else:
-            player.balance -= amout_bet
-            self.balance += amout_bet * 2
+            player.balance -= amount_bet
+            self.balance += amount_bet * 2
 
-    def play(self, amout_bet, player: Player):
+    def play(self, amount_bet, player: Player):
         level = random.choice(self.levels)
         result = self._get_final_result(level)
-        self._display(amout_bet, result)
-        self._update_balance(amout_bet, result, player)
+        self._display(amount_bet, result)
+        self._update_balance(amount_bet, result, player)
 
-# Função de interação com o usuário
-def iniciar_jogo():
-    # Inicializa o saldo do jogador
+# User Interaction Function
+def start_game():
+    # Initialize player balance
     if "player" not in st.session_state:
         st.session_state["player"] = None
 
-    if "jogo_ativo" not in st.session_state:
-        st.session_state["jogo_ativo"] = True
+    if "game_active" not in st.session_state:
+        st.session_state["game_active"] = True
 
     if st.session_state["player"] is None:
-        saldo_inicial = st.text_input("Insira seu saldo inicial (use '.' para centavos):", value="", key="saldo_inicial_input")
-        saldo_ok = st.button("OK", key="saldo_ok")
+        initial_balance = st.text_input("Enter your initial balance (use '.' for cents):", value="", key="initial_balance_input")
+        balance_ok = st.button("OK", key="balance_ok")
 
-        if saldo_ok:
+        if balance_ok:
             try:
-                saldo_inicial = float(saldo_inicial)
-                if saldo_inicial > 0:
-                    st.session_state["player"] = Player(balance=saldo_inicial)
-                    st.success(f"Seu saldo inicial é: R${st.session_state['player'].balance:.2f}")
+                initial_balance = float(initial_balance)
+                if initial_balance > 0:
+                    st.session_state["player"] = Player(balance=initial_balance)
+                    st.success(f"Your initial balance is: R${st.session_state['player'].balance:.2f}")
                 else:
-                    st.warning("Por favor, insira um saldo inicial válido para começar a jogar.")
+                    st.warning("Please enter a valid initial balance to start playing.")
             except ValueError:
-                st.error("Por favor, insira um número válido.")
+                st.error("Please enter a valid number.")
 
-    if st.session_state["jogo_ativo"] and st.session_state["player"] is not None:
+    if st.session_state["game_active"] and st.session_state["player"] is not None:
         player = st.session_state["player"]
 
         if player.balance > 0:
-            aposta = st.text_input(f"Digite o valor da sua aposta (Saldo disponível: R${player.balance:.2f})", value="", key="aposta_input")
-            aposta_ok = st.button("OK", key="aposta_ok")
+            bet = st.text_input(f"Enter your bet amount (Available balance: R${player.balance:.2f})", value="", key="bet_input")
+            bet_ok = st.button("OK", key="bet_ok")
 
-            if aposta_ok:
+            if bet_ok:
                 try:
-                    amout_bet = float(aposta)
-                    if amout_bet <= 0:
-                        st.error("A aposta deve ser maior que 0.")
-                    elif amout_bet > player.balance:
-                        st.error("Você não tem saldo suficiente para essa aposta.")
+                    amount_bet = float(bet)
+                    if amount_bet <= 0:
+                        st.error("The bet must be greater than 0.")
+                    elif amount_bet > player.balance:
+                        st.error("You do not have enough balance for this bet.")
                     else:
-                        cassino = CassaNiquel()
-                        cassino.play(amout_bet, player)
-                        st.write(f"Seu saldo atual é: R${player.balance:.2f}")
+                        casino = SlotMachine()
+                        casino.play(amount_bet, player)
+                        st.write(f"Your current balance is: R${player.balance:.2f}")
 
                         col1, col2 = st.columns(2)
                         with col1:
-                            continuar_sim = st.button("Jogar novamente", key="continuar_sim")
+                            continue_yes = st.button("Play again", key="continue_yes")
                         with col2:
-                            continuar_nao = st.button("Sair do jogo", key="continuar_nao")
+                            continue_no = st.button("Exit game", key="continue_no")
 
-                        if continuar_sim:
-                            st.session_state["jogo_ativo"] = True
-                        elif continuar_nao:
-                            st.success("Obrigado por jogar! Até a próxima!")
-                            st.session_state["jogo_ativo"] = False
+                        if continue_yes:
+                            st.session_state["game_active"] = True
+                        elif continue_no:
+                            st.success("Thank you for playing! See you next time!")
+                            st.session_state["game_active"] = False
 
                         if player.balance <= 0:
-                            st.warning("Você ficou sem saldo. Fim de jogo!")
-                            st.session_state["jogo_ativo"] = False
+                            st.warning("You ran out of balance. Game over!")
+                            st.session_state["game_active"] = False
                 except ValueError:
-                    st.error("Por favor, insira um valor numérico válido.")
+                    st.error("Please enter a valid numeric value.")
 
         else:
-            st.warning("Você ficou sem saldo. Fim de jogo!")
-            st.session_state["jogo_ativo"] = False
+            st.warning("You ran out of balance. Game over!")
+            st.session_state["game_active"] = False
 
 if __name__ == "__main__":
-    configurar_pagina()
-    iniciar_jogo()
+    configure_page()
+    start_game()
