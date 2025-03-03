@@ -11,7 +11,7 @@ def configure_page():
         layout="centered"  
     )
     
-    # Add custom CSS styling for a vintage look
+    # Add custom CSS styling for a vintage slot machine look
     st.markdown("""
         <style>
             body {
@@ -50,6 +50,15 @@ def configure_page():
                 border-radius: 10px;
                 background-color: #f8f0e3;
                 margin: 5px;
+            }
+            .slot-machine {
+                width: 650px;
+                margin: 30px auto;
+                padding: 20px;
+                background-color: #f8f0e3;
+                border: 5px solid #8b4513;
+                border-radius: 15px;
+                box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
             }
         </style>
     """, unsafe_allow_html=True)
@@ -94,6 +103,8 @@ class SlotMachine:
     def _display(self, amount_bet, result, time_interval=0.2):
         st.markdown("<h3 class='spin-message'>🎰 Spinning... 🎰</h3>", unsafe_allow_html=True)
         
+        # Wrap the reels inside a slot machine container
+        st.markdown("<div class='slot-machine'>", unsafe_allow_html=True)
         # Create three columns for the reels and assign a placeholder to each
         reel_cols = st.columns(3)
         reel_placeholders = [col.empty() for col in reel_cols]
@@ -116,13 +127,20 @@ class SlotMachine:
                 f"<div class='reel' style='font-size:80px;'>{self.SYMBOLS[result[i]]}</div>",
                 unsafe_allow_html=True
             )
+        st.markdown("</div>", unsafe_allow_html=True)  # Close the slot machine container
         
         # Display win or lose notification as a header
         if self._check_result_user(result):
-            st.markdown(f"<h1 style='text-align: center; color: green;'>You won and received: R${amount_bet * 2:.2f}</h1>", unsafe_allow_html=True)
+            st.markdown(
+                f"<h1 style='text-align: center; color: green;'>You won and received: R${amount_bet * 2:.2f}</h1>",
+                unsafe_allow_html=True
+            )
             st.balloons()  # Celebrate a win!
         else:
-            st.markdown("<h1 style='text-align: center; color: red;'>That was close! Try again next time.</h1>", unsafe_allow_html=True)
+            st.markdown(
+                "<h1 style='text-align: center; color: red;'>That was close! Try again next time.</h1>",
+                unsafe_allow_html=True
+            )
 
     def _check_result_user(self, result):
         return result[0] == result[1] == result[2]
