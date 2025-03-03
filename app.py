@@ -5,14 +5,55 @@ from time import sleep
 
 def configure_page():
     ICON_URL = "assets/navbar icon.png"
-
     st.set_page_config(
         page_title="El Dorado Slots",  
-        page_icon="assets/navbar icon.png",  
+        page_icon=ICON_URL,  
         layout="centered"  
     )
-  
-    st.markdown(f"<h1>El Dorado Slots</h1>", unsafe_allow_html=True)
+    
+    # Add custom CSS styling for a vintage look
+    st.markdown("""
+        <style>
+            body {
+                background-color: #f5f5dc; /* Beige vintage background */
+                font-family: 'Georgia', serif;
+                color: #3e3e3e;
+            }
+            .title {
+                text-align: center;
+                font-size: 3em;
+                color: #8b4513; /* SaddleBrown */
+                text-shadow: 1px 1px 2px #fff;
+                font-weight: bold;
+                margin-top: 20px;
+            }
+            .spin-message {
+                text-align: center;
+                font-size: 1.5em;
+                margin-bottom: 20px;
+                color: #8b4513;
+            }
+            .stButton>button {
+                background-color: #8b4513;
+                color: #f5f5dc;
+                border: 2px solid #f5f5dc;
+                border-radius: 5px;
+                font-size: 1em;
+                padding: 10px 20px;
+                box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            }
+            .reel {
+                text-align: center;
+                font-size: 60px;
+                padding: 10px;
+                border: 2px solid #8b4513;
+                border-radius: 10px;
+                background-color: #f8f0e3;
+                margin: 5px;
+            }
+        </style>
+    """, unsafe_allow_html=True)
+    st.markdown("<h1 class='title'>El Dorado Slots</h1>", unsafe_allow_html=True)
 
 # Player Class
 class Player:
@@ -42,32 +83,41 @@ class SlotMachine:
 
     def _get_final_result(self, level):
         result = list(random.choice(self.permutations))
-        if level in ['3', '4', '2'] and len(set(result)) == 3 and random.randint(0, 10) >= 1:
-            result[1] = result[0]  # Adjusting for a higher chance of two matching symbols
+        if level in ['2', '3', '4'] and len(set(result)) == 3 and random.randint(0, 10) >= 1:
+            result[1] = result[0]
         return result
 
-    def _display(self, amount_bet, result, time=0.5):
-        st.markdown("<h3 style='text-align:center;'>🎰 Spinning... 🎰</h3>", unsafe_allow_html=True)
-        seconds = 4
-        placeholder = st.empty()
-        for _ in range(int(seconds / time)):
-            placeholder.markdown(
-                f"<div style='text-align:center; font-size:60px;'>{self._emojize(random.choice(self.permutations))}</div>",
+    def _display(self, amount_bet, result, time_interval=0.2):
+        st.markdown("<h3 class='spin-message'>🎰 Spinning... 🎰</h3>", unsafe_allow_html=True)
+        
+        # Create three placeholders (one for each reel) using columns
+        reel_placeholders = st.columns(3)
+        spin_duration = 4  # total spin duration in seconds
+        iterations = int(spin_duration / time_interval)
+        
+        # Simulate the spinning reels with independent updates
+        for _ in range(iterations):
+            for i in range(3):
+                random_symbol = random.choice(list(self.SYMBOLS.keys()))
+                reel_placeholders[i].markdown(
+                    f"<div class='reel'>{self.SYMBOLS[random_symbol]}</div>",
+                    unsafe_allow_html=True
+                )
+            sleep(time_interval)
+        
+        # Display the final result for each reel
+        for i in range(3):
+            reel_placeholders[i].markdown(
+                f"<div class='reel' style='font-size:80px;'>{self.SYMBOLS[result[i]]}</div>",
                 unsafe_allow_html=True
             )
-            sleep(time)
-        placeholder.markdown(
-            f"<div style='text-align:center; font-size:80px;'>{self._emojize(result)}</div>",
-            unsafe_allow_html=True
-        )
-
+        
+        # Check result and show appropriate message
         if self._check_result_user(result):
-            st.success(f'You won and received: R${amount_bet * 2}')
+            st.success(f'You won and received: R${amount_bet * 2:.2f}')
+            st.balloons()  # Celebrate a win!
         else:
             st.warning('That was close! Try again next time.')
-
-    def _emojize(self, symbols):
-        return ' | '.join(self.SYMBOLS[symbol] for symbol in symbols)
 
     def _check_result_user(self, result):
         return result[0] == result[1] == result[2]
@@ -88,7 +138,7 @@ class SlotMachine:
 
 # User Interaction Function
 def start_game():
-    # Initialize player balance
+    # Initialize player balance and game state
     if "player" not in st.session_state:
         st.session_state["player"] = None
 
@@ -98,7 +148,6 @@ def start_game():
     if st.session_state["player"] is None:
         initial_balance = st.text_input("Enter your initial balance (use '.' for cents):", value="", key="initial_balance_input")
         balance_ok = st.button("OK", key="balance_ok")
-
         if balance_ok:
             try:
                 initial_balance = float(initial_balance)
@@ -112,11 +161,9 @@ def start_game():
 
     if st.session_state["game_active"] and st.session_state["player"] is not None:
         player = st.session_state["player"]
-
         if player.balance > 0:
             bet = st.text_input(f"Enter your bet amount (Available balance: R${player.balance:.2f})", value="", key="bet_input")
             bet_ok = st.button("OK", key="bet_ok")
-
             if bet_ok:
                 try:
                     amount_bet = float(bet)
@@ -146,7 +193,6 @@ def start_game():
                             st.session_state["game_active"] = False
                 except ValueError:
                     st.error("Please enter a valid numeric value.")
-
         else:
             st.warning("You ran out of balance. Game over!")
             st.session_state["game_active"] = False
@@ -154,4 +200,3 @@ def start_game():
 if __name__ == "__main__":
     configure_page()
     start_game()
-
