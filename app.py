@@ -99,7 +99,7 @@ class SlotMachine:
         reel_placeholders = [col.empty() for col in reel_cols]
         
         # Animate all three reels concurrently
-        spin_duration = 2  # Spin duration per reel in seconds
+        spin_duration = 4  # Increased spin duration (was 2 seconds)
         iterations = int(spin_duration / time_interval)
         for _ in range(iterations):
             for i in range(3):
