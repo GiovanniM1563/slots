@@ -117,12 +117,12 @@ class SlotMachine:
                 unsafe_allow_html=True
             )
         
-        # Check result and show appropriate message
+        # Display win or lose notification as a header
         if self._check_result_user(result):
-            st.success(f'You won and received: R${amount_bet * 2:.2f}')
+            st.markdown(f"<h1 style='text-align: center; color: green;'>You won and received: R${amount_bet * 2:.2f}</h1>", unsafe_allow_html=True)
             st.balloons()  # Celebrate a win!
         else:
-            st.info('That was close! Try again next time.')
+            st.markdown("<h1 style='text-align: center; color: red;'>That was close! Try again next time.</h1>", unsafe_allow_html=True)
 
     def _check_result_user(self, result):
         return result[0] == result[1] == result[2]
