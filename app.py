@@ -249,4 +249,37 @@ def start_game():
                     st.error("Please enter a valid numeric value.")
 
             # If auto spins are active, run the spins automatically
-            if st.session_state["auto_spins_active"] and st.se
+            if st.session_state["auto_spins_active"] and st.session_state["auto_spins_remaining"] > 0:
+                casino = SlotMachine()
+                # Spin repeatedly up to the chosen number, or until balance is insufficient
+                for i in range(int(st.session_state["auto_spins_remaining"])):
+                    if player.balance < float(bet):
+                        st.info("You do not have enough balance to continue auto spins.")
+                        st.session_state["auto_spins_active"] = False
+                        st.session_state["auto_spins_remaining"] = 0
+                        break
+                    # Perform one spin
+                    casino.play(float(bet), player)
+                    st.write(f"Spin {i+1}/{auto_spins}. Current balance: R${player.balance:.2f}")
+                    sleep(1.5)  # Pause so the user can see the result before next spin
+                    # If user pressed "Stop Auto Spin," break immediately
+                    if not st.session_state["auto_spins_active"]:
+                        break
+
+                # Adjust any leftover spins if we didn't break
+                if st.session_state["auto_spins_active"]:
+                    st.session_state["auto_spins_remaining"] = 0
+                    st.session_state["auto_spins_active"] = False
+                    st.write(f"Auto spins complete. Final balance: R${player.balance:.2f}")
+
+                if player.balance <= 0:
+                    st.info("You ran out of balance. Game over!")
+                    st.session_state["game_active"] = False
+
+        else:
+            st.info("You ran out of balance. Game over!")
+            st.session_state["game_active"] = False
+
+if __name__ == "__main__":
+    configure_page()
+    start_game()
