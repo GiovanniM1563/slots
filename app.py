@@ -93,12 +93,13 @@ class SlotMachine:
     def _display(self, amount_bet, result, time_interval=0.2):
         st.markdown("<h3 class='spin-message'>🎰 Spinning... 🎰</h3>", unsafe_allow_html=True)
         
-        # Create three placeholders (one for each reel) in columns
-        reel_placeholders = st.columns(3)
+        # Create three columns for the reels and use placeholders to update in place
+        reel_cols = st.columns(3)
+        reel_placeholders = [col.empty() for col in reel_cols]
         
-        # Animate each reel sequentially for added suspense
+        # Animate each reel sequentially
         for i in range(3):
-            spin_duration = 2  # spin duration per reel in seconds
+            spin_duration = 2  # Spin duration per reel in seconds
             iterations = int(spin_duration / time_interval)
             for _ in range(iterations):
                 random_symbol = random.choice(list(self.SYMBOLS.keys()))
@@ -112,7 +113,7 @@ class SlotMachine:
                 f"<div class='reel' style='font-size:80px;'>{self.SYMBOLS[result[i]]}</div>",
                 unsafe_allow_html=True
             )
-            # Small pause between reels for extra suspense
+            # Pause briefly between reels for extra suspense
             sleep(0.5)
         
         # Check result and show appropriate message
