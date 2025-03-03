@@ -100,7 +100,6 @@ class SlotMachine:
     def _display(self, amount_bet, result, time_interval=0.2):
         st.markdown("<h3 class='spin-message'>🎰 Spinning... 🎰</h3>", unsafe_allow_html=True)
         
-        # Wrap the reels inside the slot-machine container
         with st.container():
             st.markdown("<div class='slot-machine'>", unsafe_allow_html=True)
             
@@ -157,11 +156,23 @@ class SlotMachine:
         self._display(amount_bet, result)
         self._update_balance(amount_bet, result, player)
 
+# User Interaction Function
 def start_game():
     if "player" not in st.session_state:
         st.session_state["player"] = None
     if "game_active" not in st.session_state:
         st.session_state["game_active"] = True
+    # We'll store a flag for auto-spinning and how many remain
+    if "auto_spins_active" not in st.session_state:
+        st.session_state["auto_spins_active"] = False
+    if "auto_spins_remaining" not in st.session_state:
+        st.session_state["auto_spins_remaining"] = 0
+
+    # STOP auto spin if the user clicks "Stop Auto Spin"
+    if st.button("Stop Auto Spin", key="stop_auto"):
+        st.session_state["auto_spins_active"] = False
+        st.session_state["auto_spins_remaining"] = 0
+        st.info("Auto spin stopped.")
 
     if st.session_state["player"] is None:
         initial_balance = st.text_input("Enter your initial balance (use '.' for cents):", value="", key="initial_balance_input")
@@ -180,9 +191,20 @@ def start_game():
     if st.session_state["game_active"] and st.session_state["player"] is not None:
         player = st.session_state["player"]
         if player.balance > 0:
+            # Standard bet input
             bet = st.text_input(f"Enter your bet amount (Available balance: R${player.balance:.2f})", value="", key="bet_input")
+            
+            # Number of auto spins
+            auto_spins = st.number_input("How many auto spins?", min_value=1, max_value=100, value=5, step=1, key="auto_spin_input")
+            
+            # Single spin button
             bet_ok = st.button("OK", key="bet_ok")
+            
+            # Auto spin button
+            auto_spin_ok = st.button("Auto Spin", key="auto_spin_ok")
+
             if bet_ok:
+                # Single spin
                 try:
                     amount_bet = float(bet)
                     if amount_bet <= 0:
@@ -211,10 +233,20 @@ def start_game():
                             st.session_state["game_active"] = False
                 except ValueError:
                     st.error("Please enter a valid numeric value.")
-        else:
-            st.info("You ran out of balance. Game over!")
-            st.session_state["game_active"] = False
 
-if __name__ == "__main__":
-    configure_page()
-    start_game()
+            elif auto_spin_ok:
+                # Start auto spins
+                try:
+                    amount_bet = float(bet)
+                    if amount_bet <= 0:
+                        st.error("The bet must be greater than 0.")
+                    elif amount_bet > player.balance:
+                        st.error("You do not have enough balance for this bet.")
+                    else:
+                        st.session_state["auto_spins_active"] = True
+                        st.session_state["auto_spins_remaining"] = auto_spins
+                except ValueError:
+                    st.error("Please enter a valid numeric value.")
+
+            # If auto spins are active, run the spins automatically
+            if st.session_state["auto_spins_active"] and st.se
