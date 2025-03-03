@@ -103,31 +103,33 @@ class SlotMachine:
     def _display(self, amount_bet, result, time_interval=0.2):
         st.markdown("<h3 class='spin-message'>🎰 Spinning... 🎰</h3>", unsafe_allow_html=True)
         
-        # Wrap the reels inside a slot machine container
-        st.markdown("<div class='slot-machine'>", unsafe_allow_html=True)
-        # Create three columns for the reels and assign a placeholder to each
-        reel_cols = st.columns(3)
-        reel_placeholders = [col.empty() for col in reel_cols]
-        
-        # Animate all three reels concurrently
-        spin_duration = 4  # Spin duration increased to 4 seconds
-        iterations = int(spin_duration / time_interval)
-        for _ in range(iterations):
+        # Use a container to group the slot machine cabinet and reels
+        with st.container():
+            st.markdown("<div class='slot-machine'>", unsafe_allow_html=True)
+            
+            # Create three columns for the reels and assign a placeholder to each
+            reel_cols = st.columns(3)
+            reel_placeholders = [col.empty() for col in reel_cols]
+            
+            # Animate all three reels concurrently
+            spin_duration = 4  # Spin duration increased to 4 seconds
+            iterations = int(spin_duration / time_interval)
+            for _ in range(iterations):
+                for i in range(3):
+                    random_symbol = random.choice(list(self.SYMBOLS.keys()))
+                    reel_placeholders[i].markdown(
+                        f"<div class='reel'>{self.SYMBOLS[random_symbol]}</div>",
+                        unsafe_allow_html=True
+                    )
+                sleep(time_interval)
+            
+            # Display the final result for all reels simultaneously
             for i in range(3):
-                random_symbol = random.choice(list(self.SYMBOLS.keys()))
                 reel_placeholders[i].markdown(
-                    f"<div class='reel'>{self.SYMBOLS[random_symbol]}</div>",
+                    f"<div class='reel' style='font-size:80px;'>{self.SYMBOLS[result[i]]}</div>",
                     unsafe_allow_html=True
                 )
-            sleep(time_interval)
-        
-        # Display the final result for all reels simultaneously
-        for i in range(3):
-            reel_placeholders[i].markdown(
-                f"<div class='reel' style='font-size:80px;'>{self.SYMBOLS[result[i]]}</div>",
-                unsafe_allow_html=True
-            )
-        st.markdown("</div>", unsafe_allow_html=True)  # Close the slot machine container
+            st.markdown("</div>", unsafe_allow_html=True)  # Close the slot machine container
         
         # Display win or lose notification as a header
         if self._check_result_user(result):
