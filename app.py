@@ -76,13 +76,16 @@ class SlotMachine:
         self.permutations = self._gen_permutations()
 
     def _gen_permutations(self):
+        # Create all possible combinations of 3 symbols
         permutations = list(itertools.product(self.SYMBOLS.keys(), repeat=3))
+        # Add guaranteed jackpot combinations (all symbols matching) for extra excitement
         for symbol in self.SYMBOLS.keys():
-            permutations.append((symbol, symbol, symbol))  # Ensuring jackpots are possible
+            permutations.append((symbol, symbol, symbol))
         return permutations
 
     def _get_final_result(self, level):
         result = list(random.choice(self.permutations))
+        # For certain levels, increase the chance for two matching symbols (building suspense)
         if level in ['2', '3', '4'] and len(set(result)) == 3 and random.randint(0, 10) >= 1:
             result[1] = result[0]
         return result
@@ -90,27 +93,27 @@ class SlotMachine:
     def _display(self, amount_bet, result, time_interval=0.2):
         st.markdown("<h3 class='spin-message'>🎰 Spinning... 🎰</h3>", unsafe_allow_html=True)
         
-        # Create three placeholders (one for each reel) using columns
+        # Create three placeholders (one for each reel) in columns
         reel_placeholders = st.columns(3)
-        spin_duration = 4  # total spin duration in seconds
-        iterations = int(spin_duration / time_interval)
         
-        # Simulate the spinning reels with independent updates
-        for _ in range(iterations):
-            for i in range(3):
+        # Animate each reel sequentially for added suspense
+        for i in range(3):
+            spin_duration = 2  # spin duration per reel in seconds
+            iterations = int(spin_duration / time_interval)
+            for _ in range(iterations):
                 random_symbol = random.choice(list(self.SYMBOLS.keys()))
                 reel_placeholders[i].markdown(
                     f"<div class='reel'>{self.SYMBOLS[random_symbol]}</div>",
                     unsafe_allow_html=True
                 )
-            sleep(time_interval)
-        
-        # Display the final result for each reel
-        for i in range(3):
+                sleep(time_interval)
+            # Reveal final symbol for the reel
             reel_placeholders[i].markdown(
                 f"<div class='reel' style='font-size:80px;'>{self.SYMBOLS[result[i]]}</div>",
                 unsafe_allow_html=True
             )
+            # Small pause between reels for extra suspense
+            sleep(0.5)
         
         # Check result and show appropriate message
         if self._check_result_user(result):
