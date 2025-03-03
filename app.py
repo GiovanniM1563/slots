@@ -63,13 +63,14 @@ class Player:
 # Slot Machine Class
 class SlotMachine:
     def __init__(self):
+        # Define symbols with "Bar" wrapped in a styled span to force black color.
         self.SYMBOLS = {
             'Lemon': '🍋',
             'Cherry': '🍒',
             'Seven': '7️⃣',
             'Orange': '🍊',
             'Bell': '🔔',
-            'Bar': 'BAR'
+            'Bar': '<span style="color:black;">BAR</span>'
         }
         self.levels = ['1', '2', '3', '4']
         self.balance = 0
