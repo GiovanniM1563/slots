@@ -11,19 +11,19 @@ def configure_page():
         layout="centered"  
     )
     
-    # Add custom CSS styling for a vintage slot machine look
+    # Add custom CSS styling for a darker, slot-machine style
     st.markdown("""
         <style>
             body {
-                background-color: #f5f5dc; /* Beige vintage background */
+                background-color: #222; /* Dark background */
                 font-family: 'Georgia', serif;
-                color: #3e3e3e;
+                color: #f2f2f2;
             }
             .title {
                 text-align: center;
                 font-size: 3em;
-                color: #8b4513; /* SaddleBrown */
-                text-shadow: 1px 1px 2px #fff;
+                color: gold; /* Make the title stand out on dark bg */
+                text-shadow: 1px 1px 2px #000;
                 font-weight: bold;
                 margin-top: 20px;
             }
@@ -31,34 +31,34 @@ def configure_page():
                 text-align: center;
                 font-size: 1.5em;
                 margin-bottom: 20px;
-                color: #8b4513;
+                color: gold;
             }
             .stButton>button {
-                background-color: #8b4513;
-                color: #f5f5dc;
-                border: 2px solid #f5f5dc;
+                background-color: gold;
+                color: #000;
+                border: 2px solid #fff;
                 border-radius: 5px;
                 font-size: 1em;
                 padding: 10px 20px;
-                box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+                box-shadow: 2px 2px 5px rgba(255,255,255,0.3);
             }
             .reel {
                 text-align: center;
                 font-size: 60px;
                 padding: 10px;
-                border: 2px solid #8b4513;
+                border: 2px solid gold;
                 border-radius: 10px;
-                background-color: #f8f0e3;
+                background-color: #444; /* Reel background */
                 margin: 5px;
             }
             .slot-machine {
                 width: 650px;
                 margin: 30px auto;
                 padding: 20px;
-                background-color: #f8f0e3;
-                border: 5px solid #8b4513;
+                background-color: #333; /* Cabinet background */
+                border: 5px solid gold;
                 border-radius: 15px;
-                box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+                box-shadow: 0 0 15px gold; /* Neon glow */
             }
         </style>
     """, unsafe_allow_html=True)
@@ -72,7 +72,7 @@ class Player:
 # Slot Machine Class
 class SlotMachine:
     def __init__(self):
-        # Define symbols with "Bar" wrapped in a styled span to force black color.
+        # Define symbols with "Bar" in black
         self.SYMBOLS = {
             'Lemon': '🍋',
             'Cherry': '🍒',
@@ -86,16 +86,13 @@ class SlotMachine:
         self.permutations = self._gen_permutations()
 
     def _gen_permutations(self):
-        # Create all possible combinations of 3 symbols
         permutations = list(itertools.product(self.SYMBOLS.keys(), repeat=3))
-        # Add guaranteed jackpot combinations (all symbols matching) for extra excitement
         for symbol in self.SYMBOLS.keys():
             permutations.append((symbol, symbol, symbol))
         return permutations
 
     def _get_final_result(self, level):
         result = list(random.choice(self.permutations))
-        # For certain levels, increase the chance for two matching symbols (building suspense)
         if level in ['2', '3', '4'] and len(set(result)) == 3 and random.randint(0, 10) >= 1:
             result[1] = result[0]
         return result
@@ -103,16 +100,14 @@ class SlotMachine:
     def _display(self, amount_bet, result, time_interval=0.2):
         st.markdown("<h3 class='spin-message'>🎰 Spinning... 🎰</h3>", unsafe_allow_html=True)
         
-        # Use a container to group the slot machine cabinet and reels
+        # Wrap the reels inside the slot-machine container
         with st.container():
             st.markdown("<div class='slot-machine'>", unsafe_allow_html=True)
             
-            # Create three columns for the reels and assign a placeholder to each
             reel_cols = st.columns(3)
             reel_placeholders = [col.empty() for col in reel_cols]
             
-            # Animate all three reels concurrently
-            spin_duration = 4  # Spin duration increased to 4 seconds
+            spin_duration = 4
             iterations = int(spin_duration / time_interval)
             for _ in range(iterations):
                 for i in range(3):
@@ -123,21 +118,22 @@ class SlotMachine:
                     )
                 sleep(time_interval)
             
-            # Display the final result for all reels simultaneously
+            # Reveal final symbols
             for i in range(3):
                 reel_placeholders[i].markdown(
                     f"<div class='reel' style='font-size:80px;'>{self.SYMBOLS[result[i]]}</div>",
                     unsafe_allow_html=True
                 )
-            st.markdown("</div>", unsafe_allow_html=True)  # Close the slot machine container
+            
+            st.markdown("</div>", unsafe_allow_html=True)
         
-        # Display win or lose notification as a header
+        # Win or lose message as a header
         if self._check_result_user(result):
             st.markdown(
                 f"<h1 style='text-align: center; color: green;'>You won and received: R${amount_bet * 2:.2f}</h1>",
                 unsafe_allow_html=True
             )
-            st.balloons()  # Celebrate a win!
+            st.balloons()
         else:
             st.markdown(
                 "<h1 style='text-align: center; color: red;'>That was close! Try again next time.</h1>",
@@ -161,12 +157,9 @@ class SlotMachine:
         self._display(amount_bet, result)
         self._update_balance(amount_bet, result, player)
 
-# User Interaction Function
 def start_game():
-    # Initialize player balance and game state
     if "player" not in st.session_state:
         st.session_state["player"] = None
-
     if "game_active" not in st.session_state:
         st.session_state["game_active"] = True
 
