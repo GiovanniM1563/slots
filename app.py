@@ -156,23 +156,17 @@ class SlotMachine:
         self._display(amount_bet, result)
         self._update_balance(amount_bet, result, player)
 
-# User Interaction Function
 def start_game():
     if "player" not in st.session_state:
         st.session_state["player"] = None
     if "game_active" not in st.session_state:
         st.session_state["game_active"] = True
+    
     # We'll store a flag for auto-spinning and how many remain
     if "auto_spins_active" not in st.session_state:
         st.session_state["auto_spins_active"] = False
     if "auto_spins_remaining" not in st.session_state:
         st.session_state["auto_spins_remaining"] = 0
-
-    # STOP auto spin if the user clicks "Stop Auto Spin"
-    if st.button("Stop Auto Spin", key="stop_auto"):
-        st.session_state["auto_spins_active"] = False
-        st.session_state["auto_spins_remaining"] = 0
-        st.info("Auto spin stopped.")
 
     if st.session_state["player"] is None:
         initial_balance = st.text_input("Enter your initial balance (use '.' for cents):", value="", key="initial_balance_input")
@@ -203,8 +197,8 @@ def start_game():
             # Auto spin button
             auto_spin_ok = st.button("Auto Spin", key="auto_spin_ok")
 
+            # Single spin
             if bet_ok:
-                # Single spin
                 try:
                     amount_bet = float(bet)
                     if amount_bet <= 0:
@@ -234,8 +228,8 @@ def start_game():
                 except ValueError:
                     st.error("Please enter a valid numeric value.")
 
+            # Auto spin
             elif auto_spin_ok:
-                # Start auto spins
                 try:
                     amount_bet = float(bet)
                     if amount_bet <= 0:
@@ -251,7 +245,6 @@ def start_game():
             # If auto spins are active, run the spins automatically
             if st.session_state["auto_spins_active"] and st.session_state["auto_spins_remaining"] > 0:
                 casino = SlotMachine()
-                # Spin repeatedly up to the chosen number, or until balance is insufficient
                 for i in range(int(st.session_state["auto_spins_remaining"])):
                     if player.balance < float(bet):
                         st.info("You do not have enough balance to continue auto spins.")
@@ -260,17 +253,13 @@ def start_game():
                         break
                     # Perform one spin
                     casino.play(float(bet), player)
-                    st.write(f"Spin {i+1}/{auto_spins}. Current balance: R${player.balance:.2f}")
+                    st.write(f"Spin {i+1}/{st.session_state['auto_spins_remaining']}. Current balance: R${player.balance:.2f}")
                     sleep(1.5)  # Pause so the user can see the result before next spin
-                    # If user pressed "Stop Auto Spin," break immediately
-                    if not st.session_state["auto_spins_active"]:
-                        break
 
-                # Adjust any leftover spins if we didn't break
-                if st.session_state["auto_spins_active"]:
-                    st.session_state["auto_spins_remaining"] = 0
-                    st.session_state["auto_spins_active"] = False
-                    st.write(f"Auto spins complete. Final balance: R${player.balance:.2f}")
+                # After finishing or breaking early
+                st.session_state["auto_spins_active"] = False
+                st.session_state["auto_spins_remaining"] = 0
+                st.write(f"Auto spins complete. Final balance: R${player.balance:.2f}")
 
                 if player.balance <= 0:
                     st.info("You ran out of balance. Game over!")
