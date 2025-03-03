@@ -99,7 +99,7 @@ class SlotMachine:
         reel_placeholders = [col.empty() for col in reel_cols]
         
         # Animate all three reels concurrently
-        spin_duration = 4  # Increased spin duration (was 2 seconds)
+        spin_duration = 4  # Spin duration increased to 4 seconds
         iterations = int(spin_duration / time_interval)
         for _ in range(iterations):
             for i in range(3):
@@ -122,7 +122,7 @@ class SlotMachine:
             st.success(f'You won and received: R${amount_bet * 2:.2f}')
             st.balloons()  # Celebrate a win!
         else:
-            st.warning('That was close! Try again next time.')
+            st.info('That was close! Try again next time.')
 
     def _check_result_user(self, result):
         return result[0] == result[1] == result[2]
@@ -160,7 +160,7 @@ def start_game():
                     st.session_state["player"] = Player(balance=initial_balance)
                     st.success(f"Your initial balance is: R${st.session_state['player'].balance:.2f}")
                 else:
-                    st.warning("Please enter a valid initial balance to start playing.")
+                    st.info("Please enter a valid initial balance to start playing.")
             except ValueError:
                 st.error("Please enter a valid number.")
 
@@ -194,12 +194,12 @@ def start_game():
                             st.session_state["game_active"] = False
 
                         if player.balance <= 0:
-                            st.warning("You ran out of balance. Game over!")
+                            st.info("You ran out of balance. Game over!")
                             st.session_state["game_active"] = False
                 except ValueError:
                     st.error("Please enter a valid numeric value.")
         else:
-            st.warning("You ran out of balance. Game over!")
+            st.info("You ran out of balance. Game over!")
             st.session_state["game_active"] = False
 
 if __name__ == "__main__":
